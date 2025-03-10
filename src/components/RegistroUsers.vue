@@ -127,6 +127,16 @@ const createUser = async () => {
         return;
     }
 
+    if (username.value.length < 4) {
+      alertStore.notifyAlert("O username deve ter pelo menos 4 caracteres!", "warning");
+      return;
+    }
+
+    if (password.value.length < 6) {
+      alertStore.notifyAlert("A senha deve ter pelo menos 6 caracteres!", "warning");
+      return;
+    }
+
     loading.value = true;
 
     try {

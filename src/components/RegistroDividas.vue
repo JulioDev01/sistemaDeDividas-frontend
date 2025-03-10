@@ -173,6 +173,11 @@ const createDebt = async () => {
     return;
   }
 
+  if (name.value.length < 3) {
+      alertStore.notifyAlert("O nome deve ter pelo menos 3 caracteres!", "warning");
+      return;
+  }
+
   try {
     const response = await fetch("http://localhost:3001/debts/add", {
       method: "POST",
