@@ -191,6 +191,11 @@ const saveChanges = async () => {
       body: JSON.stringify(selectedUser.value)
     })
 
+    if (response.status === 422) {
+      alertStore.notifyAlert('Esse username está em uso!', 'warning')
+      return;
+    }
+
     if (!response.ok) {
       throw new Error(`Erro ao atualizar usuário: ${response.statusText}`)
     }

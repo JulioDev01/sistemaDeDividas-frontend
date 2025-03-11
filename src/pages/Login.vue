@@ -1,6 +1,5 @@
 <template>
     <v-container class="mt-16">
-        <!-- Exibindo o alerta condicionalmente -->
         <Alert v-if="alertStore.showAlert"></Alert>
         <div> 
             <v-img

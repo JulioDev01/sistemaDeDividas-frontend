@@ -172,6 +172,12 @@ const updateUser = async () => {
 
     const data = await response.json();
 
+    if (response.status === 422) {
+      usernameError.value = true;
+      usernameErrorMsg.value = "Este username já está em uso.";
+      return;
+    }
+
     if (!response.ok) {
       alertStore.notifyAlert("Erro ao atualizar usuário.", "error");
     }
@@ -179,6 +185,7 @@ const updateUser = async () => {
     alertStore.notifyAlert("Usuário atualizado com sucesso!", "success");
     sessionStorage.setItem('username', user.value.username);
     emit('update:modelValue', false);
+    location.reload()
   } catch (error) {
     alertStore.notifyAlert("Erro ao atualizar usuário.", "warning");
   }

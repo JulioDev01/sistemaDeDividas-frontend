@@ -79,9 +79,9 @@ router.beforeEach((to, from, next) => {
     next('/');
   } else if (to.path === '/usuarios' && role !== 'admin') {
     next('/home');
-    alert('Acesso negado! Somente administradores podem acessar essa página.');
+    alert('Essa página não existe.');
   } else {
-    next(); // Permitir a navegação
+    next(); 
   }
 });
 
