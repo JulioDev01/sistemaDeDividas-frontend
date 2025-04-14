@@ -194,6 +194,7 @@ const updateUser = async () => {
 //sair da conta
 const logout = () => {
   sessionStorage.clear();
+  localStorage.clear();
   alertStore.notifyAlert("Você saiu da conta!", "info");
   location.reload();
 };
