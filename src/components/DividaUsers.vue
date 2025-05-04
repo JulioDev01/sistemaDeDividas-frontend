@@ -9,7 +9,7 @@
             v-model="selectedUserId"
             :items="users"
             item-title="username"
-            item-value="_id"
+            item-value="id"
             label="Filtrar por Cliente"
             clearable
           ></v-select>
@@ -20,7 +20,7 @@
       </v-row>
       
       <v-row v-if="debts.length > 0" align="center" justify="center">
-        <v-col v-for="debt in filteredDebts" :key="debt._id" cols="12" sm="6" md="4">
+        <v-col v-for="debt in filteredDebts" :key="debt.id" cols="12" sm="6" md="4">
           <v-card
             class="mx-auto"
             prepend-icon="mdi-alert-circle"
@@ -155,7 +155,7 @@
         users.value = data.users
           .filter(user => user.role === "cliente")
           .map(user => ({
-            _id: user._id,
+            id: user.id,
             username: user.username
           }));; 
       } else {
@@ -220,7 +220,7 @@
 
     const token = sessionStorage.getItem("token");
     try {
-      const response = await fetch(`http://localhost:3001/debts/${selectedDebt.value._id}`, {
+      const response = await fetch(`http://localhost:3001/debts/${selectedDebt.value.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -248,7 +248,7 @@
 
     for (let debt of debts.value) {
       if (debt.status === "agendado" && debt.dueDate < today) {
-        await updateDebtStatus(debt._id, "pago");
+        await updateDebtStatus(debt.id, "pago");
         debt.status = "pago";
         alertStore.notifyAlert(`A dívida "${debt.name}" foi marcada como paga.`, "info");
       }
@@ -294,7 +294,7 @@
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/debts/${editDebt.value._id}/edit`, {
+      const response = await fetch(`http://localhost:3001/debts/${editDebt.value.id}/edit`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -326,7 +326,7 @@
     const token = sessionStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:3001/debts/${editDebt.value._id}`, {
+      const response = await fetch(`http://localhost:3001/debts/${editDebt.value.id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

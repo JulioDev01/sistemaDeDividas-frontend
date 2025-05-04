@@ -147,6 +147,7 @@ const validateAndUpdateUser = async () => {
 };
 
 const updateUser = async () => {
+
   const userId = sessionStorage.getItem('userId');
   const token = sessionStorage.getItem('token');
 
@@ -159,6 +160,7 @@ const updateUser = async () => {
     username: user.value.username,
     password: user.value.password
   };
+
 
   try {
     const response = await fetch(`http://localhost:3001/user/${userId}`, {

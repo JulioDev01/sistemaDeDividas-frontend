@@ -15,7 +15,7 @@
     </v-alert>
 
     <v-row align="center" justify="center" dense>
-      <v-col v-for="user in filteredUsers" :key="user._id" cols="12" sm="6" md="4">
+      <v-col v-for="user in filteredUsers" :key="user.id" cols="12" sm="6" md="4">
         <v-card append-icon="mdi-pencil" class="mx-auto" prepend-icon="mdi-account" :subtitle="user.role === 'admin' ? 'Administrador' : 'Cliente'" :title="user.username">
           <v-card-actions>
             <v-btn color="primary" @click="openEditModal(user)">Editar Perfil</v-btn>
@@ -59,7 +59,7 @@
         <v-card-text>
           <v-list>
             <v-list-item-group v-if="debts.length > 0">
-              <v-list-item v-for="debt in debts" :key="debt._id">
+              <v-list-item v-for="debt in debts" :key="debt.id">
                 <v-list-item-content>
                   <v-list-item-title>{{ debt.name }}</v-list-item-title>
                   <v-list-item-subtitle>R$ {{ debt.value }} - {{ debt.status }}</v-list-item-subtitle>
@@ -104,7 +104,7 @@ const openDeleteDialog = () => {
 const confirmDeleteAccount = async () => {
   try {
     const token = sessionStorage.getItem('token');
-    const response = await fetch(`http://localhost:3001/user/${selectedUser.value._id}`, {
+    const response = await fetch(`http://localhost:3001/user/${selectedUser.value.id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -117,7 +117,7 @@ const confirmDeleteAccount = async () => {
     }
 
     alertStore.notifyAlert('Usuário excluído com sucesso!', 'success');
-    users.value = users.value.filter(user => user._id !== selectedUser.value._id);
+    users.value = users.value.filter(user => user.id !== selectedUser.value.id);
     deleteDialog.value = false;
     showModal.value = false;
   } catch (error) {
@@ -156,7 +156,7 @@ onMounted(async () => {
 const showUserDebts = async (user) => {
   try {
     const token = sessionStorage.getItem('token');
-    const response = await fetch(`http://localhost:3001/debts/${user._id}`, {
+    const response = await fetch(`http://localhost:3001/debts/${user.id}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -169,7 +169,7 @@ const showUserDebts = async (user) => {
     }
 
     const data = await response.json();
-    debts.value = data.debts.filter(debt => debt.userId === user._id);
+    debts.value = data.debts.filter(debt => debt.userId === user.id);
     
     selectedUser.value = user; 
     showDebtDialog.value = true; 
@@ -182,7 +182,7 @@ const saveChanges = async () => {
   try {
     const token = sessionStorage.getItem('token')
 
-    const response = await fetch(`http://localhost:3001/user/${selectedUser.value._id}`, {
+    const response = await fetch(`http://localhost:3001/user/${selectedUser.value.id}`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -206,7 +206,7 @@ const saveChanges = async () => {
     // Atualiza a lista de usuários
     const updatedUser = await response.json()
     users.value = users.value.map(user =>
-      user._id === updatedUser._id ? updatedUser : user
+      user.id === updatedUser.id ? updatedUser : user
     )
 
     showModal.value = false

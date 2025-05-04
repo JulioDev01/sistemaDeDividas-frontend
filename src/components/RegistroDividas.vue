@@ -37,14 +37,14 @@
                 cols="12"
                 sm="6"
               >
-                <v-select
-                  label="Selecionar Cliente*"
-                  v-model="userId"
-                  :items="clientes" 
-                  item-title="username" 
-                  item-value="_id" 
-                  required
-                ></v-select>
+              <v-select
+                label="Selecionar Cliente*"
+                v-model="userId"
+                :items="clientes" 
+                item-title="username" 
+                item-value="id" 
+                required
+              ></v-select>
               </v-col>
   
               <v-col
@@ -123,7 +123,8 @@ const canCreate = ref(false);
 const checkCanCreate = () => {
   canCreate.value =
     name.value.trim() !== "" &&
-    userId.value.trim() !== "" &&
+    userId.value !== "" &&
+    userId.value !== null &&
     value.value !== "" &&
     dueDate.value !== "";
 };
@@ -191,6 +192,13 @@ const createDebt = async () => {
         value: parseFloat(value.value),
         dueDate: dueDate.value,
       }),
+    });
+
+    console.log("Enviando:", {
+      userId: userId.value,
+      name: name.value,
+      value: parseFloat(value.value),
+      dueDate: dueDate.value,
     });
 
     if (response.ok) {
